@@ -32,8 +32,10 @@ public class Client {
     public static void main(String[] args) {
         // write your code here
         //
+        DataOutputStream out = null;
+        DataInputStream in= null;
 
-        System.out.print("Main: starting client...");
+        System.out.print("Main: starting client...Type port:");
         Scanner input = new Scanner(System.in);
 
         String ss = input.nextLine();
@@ -41,14 +43,20 @@ public class Client {
 
 
         new Client("localhost",Integer.valueOf(ss));
-        DataOutputStream out = new DataOutputStream(s.getOutputStream());
+        out = new DataOutputStream(s.getOutputStream());
         System.out.println("DataOutputStream  created");
-        DataInputStream in = new DataInputStream(s.getInputStream());
+        in = new DataInputStream(s.getInputStream());
         System.out.println("DataInputStream  created");
         } catch (Exception e ) {System.out.print("Exception:"+e);}
 
         while (true) {
             System.out.print("Type something:");
+            ss = input.nextLine();
+           try {
+               out.writeUTF(ss);
+           } catch (Exception e) {    System.out.print("Write to server error"+e);}
+
+
         }
 
     }

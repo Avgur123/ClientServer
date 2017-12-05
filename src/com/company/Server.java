@@ -44,6 +44,7 @@ public class Server {
                 System.out.println("DataInputStream  created");
                 while (true) {
                 String mess = in.readUTF();
+                System.out.println("From Server:" +mess);
                 out.writeChars("From Server:" +mess);
 
                 }
