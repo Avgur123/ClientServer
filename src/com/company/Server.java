@@ -28,9 +28,11 @@ public class Server {
             // write your code here
             //Client client = new Client("localhost",1212);
 
-        System.out.print("Creating server...");
+            System.out.print("Creating server...");
             Server server = new Server();
             server.wait1();
+            
+
 
         }
 
