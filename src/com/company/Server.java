@@ -8,17 +8,17 @@ import java.rmi.server.ExportException;
 import java.util.Scanner;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import com.company.ClientThread;
+
 
 public class Server {
 
     public static ServerSocket server;
+    public static int thread_num=0;
 
-    public Server() {
+    public Server(String s) {
 
 
-            Scanner input = new Scanner(System.in);
-            System.out.print("Type port for server:");
-            String s = input.nextLine();
             try {
                 server = new ServerSocket(Integer.valueOf(s));
 
@@ -29,31 +29,33 @@ public class Server {
             }
         }
 
+
         public static void main(String[] args) {
             // write your code here
             //Client client = new Client("localhost",1212);
+            Socket client=null;
 
-            System.out.print("Creating server...");
-            new Server();
-            Socket client = Server.wait1();
+            System.out.print("Creating server...\n");
+            Scanner input = new Scanner(System.in);
+            System.out.print("Type port for server:\n");
+            String s = input.nextLine();
+
+            new Server(s);
+
 // канал записи в сокет
             try {
-                DataOutputStream out = new DataOutputStream(client.getOutputStream());
-                System.out.println("DataOutputStream  created");
-                DataInputStream in = new DataInputStream(client.getInputStream());
-                System.out.println("DataInputStream  created");
-                while (true) {
-                String mess = in.readUTF();
-                System.out.println("From Server:" +mess);
-                out.writeChars("From Server:" +mess);
+            while (true) {
+                      //Server.wait1();
 
+                    client = server.accept();
+                    new ClientThread(client);
+
+            } }             catch (Exception e) {
+                    System.out.println("Exception:" + e);
                 }
 
-            } catch (Exception e) { System.out.println("Exception:"+e);}
 
-
-        }
-
+            }
         /*Server server = new Server();
         server.wait1();*/
 
