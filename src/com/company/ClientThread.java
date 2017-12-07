@@ -15,18 +15,25 @@ class ClientThread extends Thread {
     }
 
     public void run() {
+        String mess="";
         Server.thread_num++;
-        thread_num=Server.thread_num;
+                thread_num=Server.thread_num;
         try {
-
 
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         System.out.println("DataOutputStream" +String.valueOf(thread_num)+ "created");
         DataInputStream in = new DataInputStream(socket.getInputStream());
         System.out.println("DataInputStream  created");
-        String mess = in.readUTF();
-        System.out.println("From Server #" +":"+mess);
-        out.writeChars("From Server#"+ String.valueOf(thread_num)+":"+mess);}
+        while (mess.compareTo("quit")!=0) {
+            mess = in.readUTF();
+            System.out.println("From Server #" + String.valueOf(thread_num)+ ": " + mess);
+            out.writeUTF("From Server#" + String.valueOf(thread_num) + ": " + mess);
+            if (mess=="quit") {break;}
+        }
+            System.out.println("Quit command detected from "  + String.valueOf(thread_num)+mess);
+                        socket.close();
+        }
+
         catch (Exception e) {System.out.println("Data I/O error"+e);}
 
     }
